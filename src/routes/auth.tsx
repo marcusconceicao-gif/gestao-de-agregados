@@ -30,7 +30,7 @@ function AuthPage() {
     setLoading(false);
     if (error) toast.error(error.message);
     else {
-      toast.success("Bem-vindo ao MONFREDINI HUB");
+      toast.success("Bem-vindo ao MONFREDINI — Gestão de Agregados");
       navigate({ to: "/" });
     }
   };

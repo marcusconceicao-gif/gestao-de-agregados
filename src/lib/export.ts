@@ -19,7 +19,7 @@ export function exportToPDF(
   doc.rect(0, 0, doc.internal.pageSize.getWidth(), 22, "F");
   doc.setTextColor(217, 4, 41);
   doc.setFontSize(14);
-  doc.text("MONFREDINI HUB", 14, 14);
+  doc.text("MONFREDINI — GESTÃO DE AGREGADOS", 14, 14);
   doc.setTextColor(192, 192, 192);
   doc.setFontSize(10);
   doc.text(title, 14, 19);
