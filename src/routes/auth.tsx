@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
+import symbolAsset from "@/assets/monfredini-symbol.png.asset.json";
 
 import { toast } from "sonner";
 
@@ -35,8 +36,13 @@ function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2">
-      <div className="hidden lg:flex relative flex-col justify-between p-12 bg-sidebar border-r border-sidebar-border overflow-hidden">
+    <div className="relative min-h-screen grid lg:grid-cols-2 overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 bg-no-repeat bg-center opacity-[0.05]"
+        style={{ backgroundImage: `url(${symbolAsset.url})`, backgroundSize: "min(80vw, 1000px) auto" }}
+      />
+      <div className="relative z-10 hidden lg:flex flex-col justify-between p-12 bg-sidebar/80 backdrop-blur-sm border-r border-sidebar-border overflow-hidden">
         <div className="absolute inset-0 opacity-30 brand-gradient blur-3xl" style={{ clipPath: "polygon(0 0, 100% 0, 100% 60%, 0 100%)" }} />
         <div className="relative z-10">
           <Logo />
@@ -54,7 +60,7 @@ function AuthPage() {
           © {new Date().getFullYear()} Monfredini Transportes
         </div>
       </div>
-      <div className="flex items-center justify-center p-8">
+      <div className="relative z-10 flex items-center justify-center p-8">
         <div className="w-full max-w-sm space-y-4">
           <div className="lg:hidden mb-6"><Logo /></div>
           <div>
