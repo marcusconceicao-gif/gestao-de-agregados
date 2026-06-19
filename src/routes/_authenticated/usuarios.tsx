@@ -8,6 +8,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { friendlyDbError } from "@/lib/db-errors";
 
 export const Route = createFileRoute("/_authenticated/usuarios")({
   component: UsuariosPage,
@@ -38,7 +39,7 @@ function UsuariosPage() {
   const setRole = async (userId: string, role: string) => {
     await supabase.from("user_roles").delete().eq("user_id", userId);
     const { error } = await supabase.from("user_roles").insert({ user_id: userId, role: role as any });
-    if (error) toast.error(error.message);
+    if (error) toast.error(friendlyDbError(error, "Não foi possível atualizar a permissão."));
     else { toast.success("Permissão atualizada"); load(); }
   };
 
