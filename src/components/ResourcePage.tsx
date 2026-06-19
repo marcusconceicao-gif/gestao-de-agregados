@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRefOptions } from "@/hooks/useRefOptions";
 import { type FieldDef, type ResourceDef } from "@/lib/resources";
 import { exportToExcel, exportToPDF, formatDate, formatMoney } from "@/lib/export";
+import { friendlyDbError } from "@/lib/db-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
