@@ -14,8 +14,8 @@ export function Logo({ collapsed = false }: { collapsed?: boolean }) {
           <span className="font-display text-[15px] font-semibold tracking-[0.18em] text-secondary">
             MONFREDINI
           </span>
-          <span className="font-display text-[11px] font-bold tracking-[0.4em] text-primary -mt-0.5">
-            HUB
+          <span className="font-display text-[10px] font-bold tracking-[0.28em] uppercase text-primary -mt-0.5">
+            Gestão de Agregados
           </span>
         </div>
       )}
