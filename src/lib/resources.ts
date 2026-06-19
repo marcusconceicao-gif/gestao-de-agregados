@@ -121,7 +121,7 @@ export const RESOURCES: Record<string, ResourceDef> = {
     table: "conjuntos",
     title: "Gestão de Conjuntos",
     singular: "Conjunto",
-    defaultOrder: "nome",
+    defaultOrder: "created_at",
     fields: [
       { name: "cavalo_id", label: "Cavalo", type: "ref", refTable: "cavalos", refLabel: "placa", required: true, showInTable: true },
       { name: "carreta_id", label: "Carreta", type: "ref", refTable: "carretas", refLabel: "placa", required: true, showInTable: true },
