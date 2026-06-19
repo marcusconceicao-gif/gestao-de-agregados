@@ -199,10 +199,11 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
       }
     }
     let error;
+    const tbl: any = supabase.from(def.table as never);
     if (editing.id) {
-      ({ error } = await supabase.from(def.table as never).update(payload).eq("id", editing.id));
+      ({ error } = await tbl.update(payload).eq("id", editing.id));
     } else {
-      ({ error } = await supabase.from(def.table as never).insert(payload));
+      ({ error } = await tbl.insert(payload));
     }
     if (error) toast.error(error.message);
     else {
