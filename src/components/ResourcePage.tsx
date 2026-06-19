@@ -335,6 +335,23 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
             <FileText className="size-4" /> PDF
           </Button>
           {canWrite && (
+            <>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".xlsx,.xls,.csv"
+                className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImportFile(f); }}
+              />
+              <Button variant="outline" size="sm" onClick={downloadTemplate} title="Baixar modelo .xlsx">
+                <Download className="size-4" /> Modelo
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()} disabled={importing}>
+                <Upload className="size-4" /> {importing ? "Importando..." : "Importar"}
+              </Button>
+            </>
+          )}
+          {canWrite && (
             <Button onClick={openNew} className="brand-gradient text-white shadow-[var(--shadow-elegant)]">
               <Plus className="size-4" /> Novo Cadastro
             </Button>
