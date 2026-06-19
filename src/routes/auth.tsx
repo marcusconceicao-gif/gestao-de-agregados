@@ -21,7 +21,6 @@ function AuthPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [nome, setNome] = useState("");
   const [loading, setLoading] = useState(false);
 
   const login = async () => {
@@ -32,23 +31,6 @@ function AuthPage() {
     else {
       toast.success("Bem-vindo ao MONFREDINI HUB");
       navigate({ to: "/" });
-    }
-  };
-
-  const signup = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/`,
-        data: { nome },
-      },
-    });
-    setLoading(false);
-    if (error) toast.error(error.message);
-    else {
-      toast.success("Conta criada. Você já pode entrar.");
     }
   };
 
@@ -73,49 +55,33 @@ function AuthPage() {
         </div>
       </div>
       <div className="flex items-center justify-center p-8">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-sm space-y-4">
           <div className="lg:hidden mb-6"><Logo /></div>
-          <h2 className="font-display text-2xl font-semibold">Acesse o sistema</h2>
-          <p className="text-sm text-muted-foreground mb-6">Use suas credenciais corporativas.</p>
-          <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid grid-cols-2 w-full">
-              <TabsTrigger value="login">Entrar</TabsTrigger>
-              <TabsTrigger value="signup">Criar conta</TabsTrigger>
-            </TabsList>
-            <TabsContent value="login" className="space-y-3 mt-4">
-              <div>
-                <Label>E-mail</Label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              </div>
-              <div>
-                <Label>Senha</Label>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-              </div>
-              <Button onClick={login} disabled={loading} className="w-full brand-gradient text-white">
-                Entrar
-              </Button>
-            </TabsContent>
-            <TabsContent value="signup" className="space-y-3 mt-4">
-              <div>
-                <Label>Nome completo</Label>
-                <Input value={nome} onChange={(e) => setNome(e.target.value)} />
-              </div>
-              <div>
-                <Label>E-mail</Label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              </div>
-              <div>
-                <Label>Senha</Label>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-              </div>
-              <Button onClick={signup} disabled={loading} className="w-full brand-gradient text-white">
-                Criar conta
-              </Button>
-              <p className="text-xs text-muted-foreground">
-                O primeiro usuário criado se torna Administrador automaticamente.
-              </p>
-            </TabsContent>
-          </Tabs>
+          <div>
+            <h2 className="font-display text-2xl font-semibold">Acesse o sistema</h2>
+            <p className="text-sm text-muted-foreground">Use suas credenciais corporativas.</p>
+          </div>
+          <div className="space-y-3">
+            <div>
+              <Label>E-mail</Label>
+              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div>
+              <Label>Senha</Label>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && login()}
+              />
+            </div>
+            <Button onClick={login} disabled={loading} className="w-full brand-gradient text-white">
+              Entrar
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              Acesso restrito. Solicite credenciais ao administrador do sistema.
+            </p>
+          </div>
         </div>
       </div>
     </div>
