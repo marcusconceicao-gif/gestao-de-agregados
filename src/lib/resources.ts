@@ -123,13 +123,9 @@ export const RESOURCES: Record<string, ResourceDef> = {
     singular: "Conjunto",
     defaultOrder: "nome",
     fields: [
-      { name: "nome", label: "Nome", type: "text", showInTable: true },
-      { name: "cavalo_id", label: "Cavalo", type: "ref", refTable: "cavalos", refLabel: "placa", showInTable: true },
-      { name: "carreta_id", label: "Carreta", type: "ref", refTable: "carretas", refLabel: "placa", showInTable: true },
-      { name: "carreta2_id", label: "Carreta 2", type: "ref", refTable: "carretas", refLabel: "placa" },
-      { name: "motorista_id", label: "Motorista", type: "ref", refTable: "motoristas", refLabel: "nome", showInTable: true },
-      { name: "ativo", label: "Ativo", type: "boolean", showInTable: true },
-      { name: "observacoes", label: "Observações", type: "textarea" },
+      { name: "cavalo_id", label: "Cavalo", type: "ref", refTable: "cavalos", refLabel: "placa", required: true, showInTable: true },
+      { name: "carreta_id", label: "Carreta", type: "ref", refTable: "carretas", refLabel: "placa", required: true, showInTable: true },
+      { name: "motorista_id", label: "Motorista", type: "ref", refTable: "motoristas", refLabel: "nome", required: true, showInTable: true },
     ],
   },
   tecnologias: {
