@@ -12,6 +12,23 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedUsuariosRouteImport } from './routes/_authenticated/usuarios'
+import { Route as AuthenticatedTecnologiasRouteImport } from './routes/_authenticated/tecnologias'
+import { Route as AuthenticatedTacografosRouteImport } from './routes/_authenticated/tacografos'
+import { Route as AuthenticatedSegurosRouteImport } from './routes/_authenticated/seguros'
+import { Route as AuthenticatedRelatoriosRouteImport } from './routes/_authenticated/relatorios'
+import { Route as AuthenticatedMotoristasRouteImport } from './routes/_authenticated/motoristas'
+import { Route as AuthenticatedManutencoesRouteImport } from './routes/_authenticated/manutencoes'
+import { Route as AuthenticatedFila_agregadosRouteImport } from './routes/_authenticated/fila_agregados'
+import { Route as AuthenticatedEmpresasRouteImport } from './routes/_authenticated/empresas'
+import { Route as AuthenticatedDocumentosRouteImport } from './routes/_authenticated/documentos'
+import { Route as AuthenticatedConjuntosRouteImport } from './routes/_authenticated/conjuntos'
+import { Route as AuthenticatedCavalosRouteImport } from './routes/_authenticated/cavalos'
+import { Route as AuthenticatedCarretasRouteImport } from './routes/_authenticated/carretas'
+import { Route as AuthenticatedBloqueiosRouteImport } from './routes/_authenticated/bloqueios'
+import { Route as AuthenticatedAlertasRouteImport } from './routes/_authenticated/alertas'
+import { Route as AuthenticatedAdvertenciasRouteImport } from './routes/_authenticated/advertencias'
+import { Route as AuthenticatedAcidentes_sinistrosRouteImport } from './routes/_authenticated/acidentes_sinistros'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -27,27 +44,227 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedUsuariosRoute = AuthenticatedUsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTecnologiasRoute =
+  AuthenticatedTecnologiasRouteImport.update({
+    id: '/tecnologias',
+    path: '/tecnologias',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTacografosRoute = AuthenticatedTacografosRouteImport.update({
+  id: '/tacografos',
+  path: '/tacografos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSegurosRoute = AuthenticatedSegurosRouteImport.update({
+  id: '/seguros',
+  path: '/seguros',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRelatoriosRoute = AuthenticatedRelatoriosRouteImport.update({
+  id: '/relatorios',
+  path: '/relatorios',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMotoristasRoute = AuthenticatedMotoristasRouteImport.update({
+  id: '/motoristas',
+  path: '/motoristas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedManutencoesRoute =
+  AuthenticatedManutencoesRouteImport.update({
+    id: '/manutencoes',
+    path: '/manutencoes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFila_agregadosRoute =
+  AuthenticatedFila_agregadosRouteImport.update({
+    id: '/fila_agregados',
+    path: '/fila_agregados',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEmpresasRoute = AuthenticatedEmpresasRouteImport.update({
+  id: '/empresas',
+  path: '/empresas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDocumentosRoute = AuthenticatedDocumentosRouteImport.update({
+  id: '/documentos',
+  path: '/documentos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedConjuntosRoute = AuthenticatedConjuntosRouteImport.update({
+  id: '/conjuntos',
+  path: '/conjuntos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCavalosRoute = AuthenticatedCavalosRouteImport.update({
+  id: '/cavalos',
+  path: '/cavalos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCarretasRoute = AuthenticatedCarretasRouteImport.update({
+  id: '/carretas',
+  path: '/carretas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBloqueiosRoute = AuthenticatedBloqueiosRouteImport.update({
+  id: '/bloqueios',
+  path: '/bloqueios',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAlertasRoute = AuthenticatedAlertasRouteImport.update({
+  id: '/alertas',
+  path: '/alertas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdvertenciasRoute =
+  AuthenticatedAdvertenciasRouteImport.update({
+    id: '/advertencias',
+    path: '/advertencias',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAcidentes_sinistrosRoute =
+  AuthenticatedAcidentes_sinistrosRouteImport.update({
+    id: '/acidentes_sinistros',
+    path: '/acidentes_sinistros',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthRoute
+  '/acidentes_sinistros': typeof AuthenticatedAcidentes_sinistrosRoute
+  '/advertencias': typeof AuthenticatedAdvertenciasRoute
+  '/alertas': typeof AuthenticatedAlertasRoute
+  '/bloqueios': typeof AuthenticatedBloqueiosRoute
+  '/carretas': typeof AuthenticatedCarretasRoute
+  '/cavalos': typeof AuthenticatedCavalosRoute
+  '/conjuntos': typeof AuthenticatedConjuntosRoute
+  '/documentos': typeof AuthenticatedDocumentosRoute
+  '/empresas': typeof AuthenticatedEmpresasRoute
+  '/fila_agregados': typeof AuthenticatedFila_agregadosRoute
+  '/manutencoes': typeof AuthenticatedManutencoesRoute
+  '/motoristas': typeof AuthenticatedMotoristasRoute
+  '/relatorios': typeof AuthenticatedRelatoriosRoute
+  '/seguros': typeof AuthenticatedSegurosRoute
+  '/tacografos': typeof AuthenticatedTacografosRoute
+  '/tecnologias': typeof AuthenticatedTecnologiasRoute
+  '/usuarios': typeof AuthenticatedUsuariosRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
+  '/acidentes_sinistros': typeof AuthenticatedAcidentes_sinistrosRoute
+  '/advertencias': typeof AuthenticatedAdvertenciasRoute
+  '/alertas': typeof AuthenticatedAlertasRoute
+  '/bloqueios': typeof AuthenticatedBloqueiosRoute
+  '/carretas': typeof AuthenticatedCarretasRoute
+  '/cavalos': typeof AuthenticatedCavalosRoute
+  '/conjuntos': typeof AuthenticatedConjuntosRoute
+  '/documentos': typeof AuthenticatedDocumentosRoute
+  '/empresas': typeof AuthenticatedEmpresasRoute
+  '/fila_agregados': typeof AuthenticatedFila_agregadosRoute
+  '/manutencoes': typeof AuthenticatedManutencoesRoute
+  '/motoristas': typeof AuthenticatedMotoristasRoute
+  '/relatorios': typeof AuthenticatedRelatoriosRoute
+  '/seguros': typeof AuthenticatedSegurosRoute
+  '/tacografos': typeof AuthenticatedTacografosRoute
+  '/tecnologias': typeof AuthenticatedTecnologiasRoute
+  '/usuarios': typeof AuthenticatedUsuariosRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/acidentes_sinistros': typeof AuthenticatedAcidentes_sinistrosRoute
+  '/_authenticated/advertencias': typeof AuthenticatedAdvertenciasRoute
+  '/_authenticated/alertas': typeof AuthenticatedAlertasRoute
+  '/_authenticated/bloqueios': typeof AuthenticatedBloqueiosRoute
+  '/_authenticated/carretas': typeof AuthenticatedCarretasRoute
+  '/_authenticated/cavalos': typeof AuthenticatedCavalosRoute
+  '/_authenticated/conjuntos': typeof AuthenticatedConjuntosRoute
+  '/_authenticated/documentos': typeof AuthenticatedDocumentosRoute
+  '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
+  '/_authenticated/fila_agregados': typeof AuthenticatedFila_agregadosRoute
+  '/_authenticated/manutencoes': typeof AuthenticatedManutencoesRoute
+  '/_authenticated/motoristas': typeof AuthenticatedMotoristasRoute
+  '/_authenticated/relatorios': typeof AuthenticatedRelatoriosRoute
+  '/_authenticated/seguros': typeof AuthenticatedSegurosRoute
+  '/_authenticated/tacografos': typeof AuthenticatedTacografosRoute
+  '/_authenticated/tecnologias': typeof AuthenticatedTecnologiasRoute
+  '/_authenticated/usuarios': typeof AuthenticatedUsuariosRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/acidentes_sinistros'
+    | '/advertencias'
+    | '/alertas'
+    | '/bloqueios'
+    | '/carretas'
+    | '/cavalos'
+    | '/conjuntos'
+    | '/documentos'
+    | '/empresas'
+    | '/fila_agregados'
+    | '/manutencoes'
+    | '/motoristas'
+    | '/relatorios'
+    | '/seguros'
+    | '/tacografos'
+    | '/tecnologias'
+    | '/usuarios'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth' | '/'
-  id: '__root__' | '/_authenticated' | '/auth' | '/_authenticated/'
+  to:
+    | '/auth'
+    | '/acidentes_sinistros'
+    | '/advertencias'
+    | '/alertas'
+    | '/bloqueios'
+    | '/carretas'
+    | '/cavalos'
+    | '/conjuntos'
+    | '/documentos'
+    | '/empresas'
+    | '/fila_agregados'
+    | '/manutencoes'
+    | '/motoristas'
+    | '/relatorios'
+    | '/seguros'
+    | '/tacografos'
+    | '/tecnologias'
+    | '/usuarios'
+    | '/'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/acidentes_sinistros'
+    | '/_authenticated/advertencias'
+    | '/_authenticated/alertas'
+    | '/_authenticated/bloqueios'
+    | '/_authenticated/carretas'
+    | '/_authenticated/cavalos'
+    | '/_authenticated/conjuntos'
+    | '/_authenticated/documentos'
+    | '/_authenticated/empresas'
+    | '/_authenticated/fila_agregados'
+    | '/_authenticated/manutencoes'
+    | '/_authenticated/motoristas'
+    | '/_authenticated/relatorios'
+    | '/_authenticated/seguros'
+    | '/_authenticated/tacografos'
+    | '/_authenticated/tecnologias'
+    | '/_authenticated/usuarios'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,14 +295,167 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/usuarios': {
+      id: '/_authenticated/usuarios'
+      path: '/usuarios'
+      fullPath: '/usuarios'
+      preLoaderRoute: typeof AuthenticatedUsuariosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tecnologias': {
+      id: '/_authenticated/tecnologias'
+      path: '/tecnologias'
+      fullPath: '/tecnologias'
+      preLoaderRoute: typeof AuthenticatedTecnologiasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tacografos': {
+      id: '/_authenticated/tacografos'
+      path: '/tacografos'
+      fullPath: '/tacografos'
+      preLoaderRoute: typeof AuthenticatedTacografosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/seguros': {
+      id: '/_authenticated/seguros'
+      path: '/seguros'
+      fullPath: '/seguros'
+      preLoaderRoute: typeof AuthenticatedSegurosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/relatorios': {
+      id: '/_authenticated/relatorios'
+      path: '/relatorios'
+      fullPath: '/relatorios'
+      preLoaderRoute: typeof AuthenticatedRelatoriosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/motoristas': {
+      id: '/_authenticated/motoristas'
+      path: '/motoristas'
+      fullPath: '/motoristas'
+      preLoaderRoute: typeof AuthenticatedMotoristasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/manutencoes': {
+      id: '/_authenticated/manutencoes'
+      path: '/manutencoes'
+      fullPath: '/manutencoes'
+      preLoaderRoute: typeof AuthenticatedManutencoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/fila_agregados': {
+      id: '/_authenticated/fila_agregados'
+      path: '/fila_agregados'
+      fullPath: '/fila_agregados'
+      preLoaderRoute: typeof AuthenticatedFila_agregadosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/empresas': {
+      id: '/_authenticated/empresas'
+      path: '/empresas'
+      fullPath: '/empresas'
+      preLoaderRoute: typeof AuthenticatedEmpresasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/documentos': {
+      id: '/_authenticated/documentos'
+      path: '/documentos'
+      fullPath: '/documentos'
+      preLoaderRoute: typeof AuthenticatedDocumentosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/conjuntos': {
+      id: '/_authenticated/conjuntos'
+      path: '/conjuntos'
+      fullPath: '/conjuntos'
+      preLoaderRoute: typeof AuthenticatedConjuntosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cavalos': {
+      id: '/_authenticated/cavalos'
+      path: '/cavalos'
+      fullPath: '/cavalos'
+      preLoaderRoute: typeof AuthenticatedCavalosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/carretas': {
+      id: '/_authenticated/carretas'
+      path: '/carretas'
+      fullPath: '/carretas'
+      preLoaderRoute: typeof AuthenticatedCarretasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/bloqueios': {
+      id: '/_authenticated/bloqueios'
+      path: '/bloqueios'
+      fullPath: '/bloqueios'
+      preLoaderRoute: typeof AuthenticatedBloqueiosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/alertas': {
+      id: '/_authenticated/alertas'
+      path: '/alertas'
+      fullPath: '/alertas'
+      preLoaderRoute: typeof AuthenticatedAlertasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/advertencias': {
+      id: '/_authenticated/advertencias'
+      path: '/advertencias'
+      fullPath: '/advertencias'
+      preLoaderRoute: typeof AuthenticatedAdvertenciasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/acidentes_sinistros': {
+      id: '/_authenticated/acidentes_sinistros'
+      path: '/acidentes_sinistros'
+      fullPath: '/acidentes_sinistros'
+      preLoaderRoute: typeof AuthenticatedAcidentes_sinistrosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAcidentes_sinistrosRoute: typeof AuthenticatedAcidentes_sinistrosRoute
+  AuthenticatedAdvertenciasRoute: typeof AuthenticatedAdvertenciasRoute
+  AuthenticatedAlertasRoute: typeof AuthenticatedAlertasRoute
+  AuthenticatedBloqueiosRoute: typeof AuthenticatedBloqueiosRoute
+  AuthenticatedCarretasRoute: typeof AuthenticatedCarretasRoute
+  AuthenticatedCavalosRoute: typeof AuthenticatedCavalosRoute
+  AuthenticatedConjuntosRoute: typeof AuthenticatedConjuntosRoute
+  AuthenticatedDocumentosRoute: typeof AuthenticatedDocumentosRoute
+  AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
+  AuthenticatedFila_agregadosRoute: typeof AuthenticatedFila_agregadosRoute
+  AuthenticatedManutencoesRoute: typeof AuthenticatedManutencoesRoute
+  AuthenticatedMotoristasRoute: typeof AuthenticatedMotoristasRoute
+  AuthenticatedRelatoriosRoute: typeof AuthenticatedRelatoriosRoute
+  AuthenticatedSegurosRoute: typeof AuthenticatedSegurosRoute
+  AuthenticatedTacografosRoute: typeof AuthenticatedTacografosRoute
+  AuthenticatedTecnologiasRoute: typeof AuthenticatedTecnologiasRoute
+  AuthenticatedUsuariosRoute: typeof AuthenticatedUsuariosRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAcidentes_sinistrosRoute: AuthenticatedAcidentes_sinistrosRoute,
+  AuthenticatedAdvertenciasRoute: AuthenticatedAdvertenciasRoute,
+  AuthenticatedAlertasRoute: AuthenticatedAlertasRoute,
+  AuthenticatedBloqueiosRoute: AuthenticatedBloqueiosRoute,
+  AuthenticatedCarretasRoute: AuthenticatedCarretasRoute,
+  AuthenticatedCavalosRoute: AuthenticatedCavalosRoute,
+  AuthenticatedConjuntosRoute: AuthenticatedConjuntosRoute,
+  AuthenticatedDocumentosRoute: AuthenticatedDocumentosRoute,
+  AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
+  AuthenticatedFila_agregadosRoute: AuthenticatedFila_agregadosRoute,
+  AuthenticatedManutencoesRoute: AuthenticatedManutencoesRoute,
+  AuthenticatedMotoristasRoute: AuthenticatedMotoristasRoute,
+  AuthenticatedRelatoriosRoute: AuthenticatedRelatoriosRoute,
+  AuthenticatedSegurosRoute: AuthenticatedSegurosRoute,
+  AuthenticatedTacografosRoute: AuthenticatedTacografosRoute,
+  AuthenticatedTecnologiasRoute: AuthenticatedTecnologiasRoute,
+  AuthenticatedUsuariosRoute: AuthenticatedUsuariosRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
