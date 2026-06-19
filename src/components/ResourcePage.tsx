@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import * as XLSX from "xlsx";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useRefOptions } from "@/hooks/useRefOptions";
@@ -19,7 +20,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import {
-  Plus, Search, MoreHorizontal, Pencil, Copy, History, Trash2, FileSpreadsheet, FileText,
+  Plus, Search, MoreHorizontal, Pencil, Copy, History, Trash2, FileSpreadsheet, FileText, Upload, Download,
 } from "lucide-react";
 
 type Row = Record<string, any>;
@@ -100,6 +101,86 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
   const [open, setOpen] = useState(false);
   const [historyOf, setHistoryOf] = useState<Row | null>(null);
   const [refMap, setRefMap] = useState<Record<string, Record<string, string>>>({});
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const downloadTemplate = () => {
+    const headers = def.fields.map((f) => f.label);
+    const ws = XLSX.utils.aoa_to_sheet([headers]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, def.singular.slice(0, 31));
+    XLSX.writeFile(wb, `modelo_${def.key}.xlsx`);
+  };
+
+  const handleImportFile = async (file: File) => {
+    setImporting(true);
+    try {
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, { type: "array", cellDates: true });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const json = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws, { defval: null, raw: false });
+      if (json.length === 0) {
+        toast.error("Planilha vazia");
+        return;
+      }
+      // Build lookup maps for ref fields (label -> id)
+      const refLookup: Record<string, Record<string, string>> = {};
+      for (const f of def.fields.filter((x) => x.type === "ref" && x.refTable)) {
+        const inv: Record<string, string> = {};
+        const m = refMap[f.refTable!] ?? {};
+        Object.entries(m).forEach(([id, label]) => { inv[String(label).toLowerCase().trim()] = id; });
+        refLookup[f.name] = inv;
+      }
+      const rowsToInsert: Row[] = [];
+      const errors: string[] = [];
+      json.forEach((raw, idx) => {
+        const obj: Row = {};
+        for (const f of def.fields) {
+          const v = raw[f.label] ?? raw[f.name];
+          if (v === null || v === undefined || v === "") { obj[f.name] = null; continue; }
+          if (f.type === "boolean") {
+            const s = String(v).toLowerCase().trim();
+            obj[f.name] = ["sim","true","1","yes","x"].includes(s);
+          } else if (f.type === "number" || f.type === "money") {
+            const n = Number(String(v).replace(",", "."));
+            obj[f.name] = Number.isFinite(n) ? n : null;
+          } else if (f.type === "date") {
+            if (v instanceof Date) obj[f.name] = v.toISOString().slice(0, 10);
+            else {
+              const s = String(v).trim();
+              const br = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+              obj[f.name] = br ? `${br[3]}-${br[2]}-${br[1]}` : s.slice(0, 10);
+            }
+          } else if (f.type === "ref") {
+            const key = String(v).toLowerCase().trim();
+            const id = refLookup[f.name]?.[key];
+            obj[f.name] = id ?? (key.length === 36 ? String(v) : null);
+            if (!obj[f.name]) errors.push(`Linha ${idx + 2}: "${f.label}" não encontrado (${v})`);
+          } else {
+            obj[f.name] = String(v);
+          }
+        }
+        for (const f of def.fields) {
+          if (f.required && (obj[f.name] === null || obj[f.name] === "")) {
+            errors.push(`Linha ${idx + 2}: campo obrigatório "${f.label}" vazio`);
+          }
+        }
+        rowsToInsert.push(obj);
+      });
+      if (errors.length > 0) {
+        toast.error(errors.slice(0, 5).join(" • ") + (errors.length > 5 ? ` (+${errors.length - 5})` : ""));
+        return;
+      }
+      const { error } = await (supabase.from(def.table as never) as any).insert(rowsToInsert);
+      if (error) toast.error(error.message);
+      else toast.success(`${rowsToInsert.length} registro(s) importado(s)`);
+    } catch (e) {
+      toast.error("Falha ao ler arquivo: " + (e as Error).message);
+    } finally {
+      setImporting(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
 
   // Load refs labels for table render
   useEffect(() => {
@@ -253,6 +334,23 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
           )}>
             <FileText className="size-4" /> PDF
           </Button>
+          {canWrite && (
+            <>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".xlsx,.xls,.csv"
+                className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImportFile(f); }}
+              />
+              <Button variant="outline" size="sm" onClick={downloadTemplate} title="Baixar modelo .xlsx">
+                <Download className="size-4" /> Modelo
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()} disabled={importing}>
+                <Upload className="size-4" /> {importing ? "Importando..." : "Importar"}
+              </Button>
+            </>
+          )}
           {canWrite && (
             <Button onClick={openNew} className="brand-gradient text-white shadow-[var(--shadow-elegant)]">
               <Plus className="size-4" /> Novo Cadastro
