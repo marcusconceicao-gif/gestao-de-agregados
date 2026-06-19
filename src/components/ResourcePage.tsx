@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRefOptions } from "@/hooks/useRefOptions";
 import { type FieldDef, type ResourceDef } from "@/lib/resources";
 import { exportToExcel, exportToPDF, formatDate, formatMoney } from "@/lib/export";
+import { friendlyDbError } from "@/lib/db-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -172,10 +173,10 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
         return;
       }
       const { error } = await (supabase.from(def.table as never) as any).insert(rowsToInsert);
-      if (error) toast.error(error.message);
+      if (error) toast.error(friendlyDbError(error));
       else toast.success(`${rowsToInsert.length} registro(s) importado(s)`);
     } catch (e) {
-      toast.error("Falha ao ler arquivo: " + (e as Error).message);
+      toast.error("Não foi possível ler o arquivo. Verifique o formato e tente novamente.");
     } finally {
       setImporting(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -208,7 +209,7 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
       .select("*")
       .order(order as never, { ascending: true })
       .limit(2000);
-    if (error) toast.error(error.message);
+    if (error) toast.error(friendlyDbError(error));
     setRows((data as Row[]) ?? []);
     setLoading(false);
   };
@@ -263,7 +264,7 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
   const remove = async (row: Row) => {
     if (!confirm(`Excluir este ${def.singular.toLowerCase()}?`)) return;
     const { error } = await supabase.from(def.table as never).delete().eq("id", row.id);
-    if (error) toast.error(error.message);
+    if (error) toast.error(friendlyDbError(error));
     else toast.success("Excluído com sucesso");
   };
   const save = async () => {
@@ -286,7 +287,7 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
     } else {
       ({ error } = await tbl.insert(payload));
     }
-    if (error) toast.error(error.message);
+    if (error) toast.error(friendlyDbError(error));
     else {
       toast.success(editing.id ? "Atualizado" : "Cadastrado");
       setOpen(false);

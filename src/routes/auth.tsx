@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import symbolAsset from "@/assets/monfredini-symbol.png.asset.json";
 
 import { toast } from "sonner";
+import { friendlyDbError } from "@/lib/db-errors";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -28,7 +29,7 @@ function AuthPage() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
-    if (error) toast.error(error.message);
+    if (error) toast.error(friendlyDbError(error, "Não foi possível entrar. Verifique seus dados."));
     else {
       toast.success("Bem-vindo ao MONFREDINI — Gestão de Agregados");
       navigate({ to: "/" });
