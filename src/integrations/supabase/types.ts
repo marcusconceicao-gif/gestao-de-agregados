@@ -485,6 +485,102 @@ export type Database = {
         }
         Relationships: []
       }
+      integracoes: {
+        Row: {
+          assinatura: string | null
+          checklist_rastreador: boolean
+          checklist_rastreador_obs: string | null
+          checklist_visual: boolean
+          checklist_visual_obs: string | null
+          contato: string | null
+          created_at: string
+          created_by: string | null
+          data: string
+          datapar: boolean
+          datapar_obs: string | null
+          documentacao_carreta: boolean
+          documentacao_carreta_obs: string | null
+          email: boolean
+          email_obs: string | null
+          id: string
+          kit: boolean
+          kit_obs: string | null
+          motorista_programacao: boolean
+          motorista_programacao_obs: string | null
+          nome_motorista: string
+          observacoes: string | null
+          placa_carreta: string | null
+          placa_cavalo: string | null
+          planilha_status: boolean
+          planilha_status_obs: string | null
+          responsavel: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assinatura?: string | null
+          checklist_rastreador?: boolean
+          checklist_rastreador_obs?: string | null
+          checklist_visual?: boolean
+          checklist_visual_obs?: string | null
+          contato?: string | null
+          created_at?: string
+          created_by?: string | null
+          data?: string
+          datapar?: boolean
+          datapar_obs?: string | null
+          documentacao_carreta?: boolean
+          documentacao_carreta_obs?: string | null
+          email?: boolean
+          email_obs?: string | null
+          id?: string
+          kit?: boolean
+          kit_obs?: string | null
+          motorista_programacao?: boolean
+          motorista_programacao_obs?: string | null
+          nome_motorista: string
+          observacoes?: string | null
+          placa_carreta?: string | null
+          placa_cavalo?: string | null
+          planilha_status?: boolean
+          planilha_status_obs?: string | null
+          responsavel?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assinatura?: string | null
+          checklist_rastreador?: boolean
+          checklist_rastreador_obs?: string | null
+          checklist_visual?: boolean
+          checklist_visual_obs?: string | null
+          contato?: string | null
+          created_at?: string
+          created_by?: string | null
+          data?: string
+          datapar?: boolean
+          datapar_obs?: string | null
+          documentacao_carreta?: boolean
+          documentacao_carreta_obs?: string | null
+          email?: boolean
+          email_obs?: string | null
+          id?: string
+          kit?: boolean
+          kit_obs?: string | null
+          motorista_programacao?: boolean
+          motorista_programacao_obs?: string | null
+          nome_motorista?: string
+          observacoes?: string | null
+          placa_carreta?: string | null
+          placa_cavalo?: string | null
+          planilha_status?: boolean
+          planilha_status_obs?: string | null
+          responsavel?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       manutencoes: {
         Row: {
           carreta_id: string | null
