@@ -52,7 +52,7 @@ function Dashboard() {
         supabase.from("acidentes_sinistros").select("id, data, custo"),
         supabase.from("tecnologias").select("tipo"),
         supabase.from("advertencias").select("motorista_id, motoristas(nome)").eq("ativa", true),
-        supabase.from("carretas").select("id, placa, status, created_at, condicao" as never).eq("condicao" as never, "nova" as never),
+        supabase.from("carretas").select("id, placa, status, created_at, condicao").eq("condicao", "nova"),
       ]);
 
       const today = new Date();
