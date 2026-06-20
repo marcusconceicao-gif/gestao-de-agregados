@@ -153,6 +153,28 @@ function IntegracoesPage() {
     return { hoje, mes, concl, pend };
   }, [list]);
 
+  const driverGroups = useMemo(() => {
+    const map = new Map<string, any[]>();
+    for (const r of list) {
+      const nome = (r.nome_motorista ?? "").trim() || "Sem nome";
+      if (!map.has(nome)) map.set(nome, []);
+      map.get(nome)!.push(r);
+    }
+    return Array.from(map.entries())
+      .map(([nome, items]) => ({ nome, items }))
+      .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+  }, [list]);
+
+  useEffect(() => {
+    if (driverGroups.length === 0) {
+      setDriverTab("");
+      return;
+    }
+    if (!driverGroups.find((g) => g.nome === driverTab)) {
+      setDriverTab(driverGroups[0].nome);
+    }
+  }, [driverGroups, driverTab]);
+
   const novoCadastro = () => {
     setForm(emptyForm());
     signatureRef.current?.clear();
