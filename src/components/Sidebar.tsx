@@ -4,7 +4,7 @@ import { Logo } from "@/components/Logo";
 import {
   LayoutDashboard, Building2, Users, Truck, Container, Layers, Satellite, Gauge, ShieldCheck,
   Wrench, AlertTriangle, ShieldAlert, Ban, ListOrdered, FolderOpen, BarChart3, Bell, UserCog,
-  ChevronsLeft, ChevronsRight, LogOut,
+  ClipboardCheck, ChevronsLeft, ChevronsRight, LogOut,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ const NAV = [
   { to: "/acidentes_sinistros", label: "Acidentes e Sinistros", icon: ShieldAlert },
   { to: "/bloqueios", label: "Bloqueios", icon: Ban },
   { to: "/fila_agregados", label: "Fila de Agregados", icon: ListOrdered },
+  { to: "/integracoes", label: "Checklist de Integração", icon: ClipboardCheck },
   { to: "/documentos", label: "Central de Documentos", icon: FolderOpen },
   { to: "/relatorios", label: "Relatórios Gerenciais", icon: BarChart3 },
   { to: "/alertas", label: "Alertas", icon: Bell },
