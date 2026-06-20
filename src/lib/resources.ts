@@ -304,7 +304,6 @@ export const FAB_QUICK_ITEMS: { key: string; label: string }[] = [
   { key: "cavalos", label: "Cavalo" },
   { key: "carretas", label: "Carreta" },
   { key: "conjuntos", label: "Conjunto" },
-  { key: "motoristas", label: "Ficha Cadastral" },
   { key: "tecnologias", label: "Tecnologia" },
   { key: "tacografos", label: "Tacógrafo" },
   { key: "seguros", label: "Seguro" },
