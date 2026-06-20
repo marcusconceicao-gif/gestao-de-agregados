@@ -26,8 +26,6 @@ import {
   ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown, Eye, EyeOff,
 } from "lucide-react";
 
-import { useState as useReactState } from "react";
-
 type Row = Record<string, any>;
 
 function FieldInput({ field, value, onChange }: { field: FieldDef; value: any; onChange: (v: any) => void }) {
