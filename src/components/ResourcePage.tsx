@@ -30,8 +30,31 @@ type Row = Record<string, any>;
 
 function FieldInput({ field, value, onChange }: { field: FieldDef; value: any; onChange: (v: any) => void }) {
   const refOpts = useRefOptions(field);
+  const [showPwd, setShowPwd] = useState(false);
   if (field.type === "textarea") {
     return <Textarea rows={3} value={value ?? ""} onChange={(e) => onChange(e.target.value)} />;
+  }
+  if (field.type === "password") {
+    return (
+      <div className="relative">
+        <Input
+          type={showPwd ? "text" : "password"}
+          value={value ?? ""}
+          onChange={(e) => onChange(e.target.value)}
+          autoComplete="off"
+          className="pr-10"
+        />
+        <button
+          type="button"
+          onClick={() => setShowPwd((v) => !v)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          tabIndex={-1}
+          aria-label={showPwd ? "Ocultar senha" : "Mostrar senha"}
+        >
+          {showPwd ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+        </button>
+      </div>
+    );
   }
   if (field.type === "boolean") {
     return (
