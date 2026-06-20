@@ -143,7 +143,7 @@ function Dashboard() {
 
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="surface-card p-4 lg:col-span-2">
-          <h3 className="font-display font-semibold mb-2">Manutenções por mês</h3>
+          <h3 className="font-display font-semibold mb-2">Manutenções de carretas por mês</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={manutMes}>
