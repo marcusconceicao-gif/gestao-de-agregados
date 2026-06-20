@@ -7,7 +7,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {
   ClipboardCheck, History, LayoutDashboard, Plus, Save, FileDown, Eraser,
-  Search, User as UserIcon, Calendar as CalendarIcon, CheckCircle2, Clock,
+  Search, User as UserIcon, Users, Calendar as CalendarIcon, CheckCircle2, Clock,
+  Truck, Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
