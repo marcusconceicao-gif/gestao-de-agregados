@@ -152,6 +152,8 @@ export const RESOURCES: Record<string, ResourceDef> = {
       { name: "senha", label: "Senha", type: "password" },
       { name: "segunda_tecnologia", label: "Segunda Tecnologia", type: "select",
         options: [{ value: "3S", label: "3S" }, { value: "T4S", label: "T4S" }], showInTable: true },
+      { name: "usuario2", label: "Usuário (2ª Tec.)", type: "text" },
+      { name: "senha2", label: "Senha (2ª Tec.)", type: "password" },
       { name: "trava_5a_roda", label: "Trava 5ª Roda", type: "boolean", showInTable: true },
       { name: "camera", label: "Câmera", type: "boolean", showInTable: true },
       { name: "data_instalacao", label: "Instalação", type: "date", showInTable: true },
