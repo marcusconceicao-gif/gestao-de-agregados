@@ -257,12 +257,36 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
   );
 
   const filtered = useMemo(() => {
-    if (!search.trim()) return rows;
-    const s = search.toLowerCase();
-    return rows.filter((r) =>
-      def.fields.some((f) => String(r[f.name] ?? "").toLowerCase().includes(s)),
-    );
-  }, [rows, search, def]);
+    const base = !search.trim()
+      ? rows
+      : rows.filter((r) => {
+          const s = search.toLowerCase();
+          return def.fields.some((f) => String(r[f.name] ?? "").toLowerCase().includes(s));
+        });
+    if (!sortKey) return base;
+    const field = def.fields.find((f) => f.name === sortKey);
+    const sorted = [...base].sort((a, b) => {
+      const av = a[sortKey];
+      const bv = b[sortKey];
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      if (field?.type === "number" || field?.type === "money") return Number(av) - Number(bv);
+      return String(av).localeCompare(String(bv), "pt-BR", { numeric: true });
+    });
+    return sortDir === "asc" ? sorted : sorted.reverse();
+  }, [rows, search, def, sortKey, sortDir]);
+
+  useEffect(() => { setPage(1); }, [search, sortKey, sortDir, def.table]);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const pageRows = useMemo(
+    () => filtered.slice((page - 1) * pageSize, page * pageSize),
+    [filtered, page, pageSize],
+  );
+  const toggleSort = (name: string) => {
+    if (sortKey === name) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    else { setSortKey(name); setSortDir("asc"); }
+  };
 
   const openNew = () => {
     setEditing({});
