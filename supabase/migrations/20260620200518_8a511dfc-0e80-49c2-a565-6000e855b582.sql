@@ -1,0 +1,1 @@
+ALTER TABLE public.carretas ADD COLUMN IF NOT EXISTS condicao text NOT NULL DEFAULT 'semi-nova' CHECK (condicao IN ('nova','semi-nova'));

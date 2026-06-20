@@ -168,6 +168,7 @@ export type Database = {
         Row: {
           ano: number | null
           chassi: string | null
+          condicao: string
           created_at: string
           empresa_id: string | null
           id: string
@@ -183,6 +184,7 @@ export type Database = {
         Insert: {
           ano?: number | null
           chassi?: string | null
+          condicao?: string
           created_at?: string
           empresa_id?: string | null
           id?: string
@@ -198,6 +200,7 @@ export type Database = {
         Update: {
           ano?: number | null
           chassi?: string | null
+          condicao?: string
           created_at?: string
           empresa_id?: string | null
           id?: string
