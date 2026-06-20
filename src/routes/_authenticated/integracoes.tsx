@@ -514,44 +514,61 @@ function IntegracoesPage() {
                     </section>
 
                     <section className="grid gap-3 md:grid-cols-2">
-                      {g.items.map((r) => (
-                        <div key={r.id} className="surface-card p-4 space-y-3">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="min-w-0">
-                              <p className="text-sm font-medium inline-flex items-center gap-1.5">
-                                <CalendarIcon className="size-3.5 text-muted-foreground" />
-                                {new Date(r.data + "T00:00:00").toLocaleDateString("pt-BR")}
-                              </p>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Responsável: {r.responsavel ?? "—"}
-                              </p>
-                            </div>
-                            <Badge variant={r.status === "concluido" ? "default" : "secondary"}>
-                              {r.status === "concluido" ? "Concluído" : "Pendente"}
-                            </Badge>
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            <span className="inline-flex items-center gap-1"><Truck className="size-3" /> {r.placa_cavalo ?? "—"} / {r.placa_carreta ?? "—"}</span>
-                          </div>
-                          <div className="flex flex-wrap gap-1">
-                            {CHECKLIST_ITEMS.map((it) => (
-                              <Badge
-                                key={it.key}
-                                variant={r[it.key] ? "default" : "outline"}
-                                className="text-[10px] font-normal"
-                              >
-                                {r[it.key] ? "✓" : "○"} {it.label}
+                      {g.items.map((r) => {
+                        const okCount = CHECKLIST_ITEMS.filter((it) => r[it.key]).length;
+                        const total = CHECKLIST_ITEMS.length;
+                        const pct = Math.round((okCount / total) * 100);
+                        return (
+                          <div key={r.id} className="surface-card p-4 space-y-3">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0">
+                                <p className="text-sm font-medium inline-flex items-center gap-1.5">
+                                  <CalendarIcon className="size-3.5 text-muted-foreground" />
+                                  {new Date(r.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  Responsável: {r.responsavel ?? "—"}
+                                </p>
+                              </div>
+                              <Badge variant={r.status === "concluido" ? "default" : "secondary"}>
+                                {r.status === "concluido" ? "Concluído" : "Pendente"}
                               </Badge>
-                            ))}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              <span className="inline-flex items-center gap-1"><Truck className="size-3" /> {r.placa_cavalo ?? "—"} / {r.placa_carreta ?? "—"}</span>
+                            </div>
+                            <div className="space-y-1.5">
+                              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                                <span>Progresso do checklist</span>
+                                <span className="font-medium text-foreground">{okCount}/{total} · {pct}%</span>
+                              </div>
+                              <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+                                <div
+                                  className={`h-full transition-all ${pct === 100 ? "bg-emerald-500" : "brand-gradient"}`}
+                                  style={{ width: `${pct}%` }}
+                                />
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              {CHECKLIST_ITEMS.map((it) => (
+                                <Badge
+                                  key={it.key}
+                                  variant={r[it.key] ? "default" : "outline"}
+                                  className="text-[10px] font-normal"
+                                >
+                                  {r[it.key] ? "✓" : "○"} {it.label}
+                                </Badge>
+                              ))}
+                            </div>
+                            <div className="flex justify-end gap-1 pt-1 border-t border-border">
+                              <Button size="sm" variant="ghost" onClick={() => editar(r)}>Editar</Button>
+                              <Button size="sm" variant="ghost" onClick={() => gerarPDF(rowToForm(r))}>
+                                <FileDown className="size-4 mr-1" /> PDF
+                              </Button>
+                            </div>
                           </div>
-                          <div className="flex justify-end gap-1 pt-1 border-t border-border">
-                            <Button size="sm" variant="ghost" onClick={() => editar(r)}>Editar</Button>
-                            <Button size="sm" variant="ghost" onClick={() => gerarPDF(rowToForm(r))}>
-                              <FileDown className="size-4 mr-1" /> PDF
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </section>
                   </TabsContent>
                 );
