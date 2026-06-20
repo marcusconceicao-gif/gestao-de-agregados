@@ -43,7 +43,7 @@ function Dashboard() {
 
   useEffect(() => {
     (async () => {
-      const [cv, mt, cj, mn, al, sn, tc, adv] = await Promise.all([
+      const [cv, mt, cj, mn, al, sn, tc, adv, cn] = await Promise.all([
         supabase.from("cavalos").select("id, placa", { count: "exact" }),
         supabase.from("motoristas").select("id", { count: "exact" }).eq("status", "ativo"),
         supabase.from("conjuntos").select("id", { count: "exact" }).eq("ativo", true),
@@ -52,6 +52,7 @@ function Dashboard() {
         supabase.from("acidentes_sinistros").select("id, data, custo"),
         supabase.from("tecnologias").select("tipo"),
         supabase.from("advertencias").select("motorista_id, motoristas(nome)").eq("ativa", true),
+        supabase.from("carretas").select("id, placa, status, created_at, condicao" as never).eq("condicao" as never, "nova" as never),
       ]);
 
       const today = new Date();
