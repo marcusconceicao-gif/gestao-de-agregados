@@ -410,9 +410,22 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
           <table className="w-full text-sm">
             <thead className="bg-surface-2 text-secondary">
               <tr>
-                {tableFields.map((f) => (
-                  <th key={f.name} className="text-left px-4 py-3 font-medium whitespace-nowrap">{f.label}</th>
-                ))}
+                {tableFields.map((f) => {
+                  const active = sortKey === f.name;
+                  const Icon = !active ? ArrowUpDown : sortDir === "asc" ? ArrowUp : ArrowDown;
+                  return (
+                    <th key={f.name} className="text-left px-4 py-3 font-medium whitespace-nowrap">
+                      <button
+                        type="button"
+                        onClick={() => toggleSort(f.name)}
+                        className={`inline-flex items-center gap-1.5 hover:text-primary transition ${active ? "text-primary" : ""}`}
+                      >
+                        {f.label}
+                        <Icon className="size-3.5 opacity-70" />
+                      </button>
+                    </th>
+                  );
+                })}
                 <th className="px-4 py-3 w-12"></th>
               </tr>
             </thead>
@@ -423,7 +436,7 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
                 <tr><td colSpan={tableFields.length+1} className="px-4 py-10 text-center text-muted-foreground">
                   Nenhum registro encontrado.
                 </td></tr>
-              ) : filtered.map((row) => (
+              ) : pageRows.map((row) => (
                 <tr key={row.id} className="border-t border-border hover:bg-surface-2/50 transition">
                   {tableFields.map((f) => (
                     <td key={f.name} className="px-4 py-2.5 whitespace-nowrap">{formatCell(f, row[f.name], refMap)}</td>
