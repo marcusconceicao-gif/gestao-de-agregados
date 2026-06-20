@@ -239,15 +239,28 @@ function Dashboard() {
           <p className="text-sm text-muted-foreground">Sem alertas no momento.</p>
         ) : (
           <ul className="divide-y divide-border">
-            {alertas.map((a) => (
-              <li key={a.id} className="py-2 flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm">{a.descricao}</p>
-                  <p className="text-xs text-muted-foreground">{a.tipo.toUpperCase()} · {a.vence_em ? formatDate(a.vence_em) : ""}</p>
-                </div>
-                <Badge variant={a.severidade === "critico" ? "destructive" : "secondary"}>{a.severidade}</Badge>
-              </li>
-            ))}
+            {alertas.map((a) => {
+              const routeMap: Record<string, string> = {
+                motorista: "/motoristas", cavalo: "/cavalos", carreta: "/carretas",
+                empresa: "/empresas", conjunto: "/conjuntos", tecnologia: "/tecnologias",
+                tacografo: "/tacografos", seguro: "/seguros", documento: "/documentos",
+                agregado: "/fila_agregados",
+              };
+              const to = routeMap[a.entidade_tipo];
+              return (
+                <li
+                  key={a.id}
+                  className={`py-2 flex items-center justify-between gap-3 ${to ? "cursor-pointer hover:bg-surface-2/40 -mx-2 px-2 rounded" : ""}`}
+                  onClick={() => to && navigate({ to })}
+                >
+                  <div>
+                    <p className="text-sm">{a.descricao}</p>
+                    <p className="text-xs text-muted-foreground">{a.tipo.toUpperCase()} · {a.entidade_nome ?? ""}{a.vence_em ? ` · ${formatDate(a.vence_em)}` : ""}</p>
+                  </div>
+                  <Badge variant={a.severidade === "critico" ? "destructive" : "secondary"}>{a.severidade}</Badge>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
