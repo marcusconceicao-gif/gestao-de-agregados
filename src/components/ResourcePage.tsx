@@ -291,6 +291,10 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
         toast.error(`Campo obrigatório: ${f.label}`);
         return;
       }
+      if (typeof payload[f.name] === "string") {
+        const mErr = validateMasked(detectMask(f.name), payload[f.name]);
+        if (mErr) { toast.error(`${f.label}: ${mErr}`); return; }
+      }
     }
     let error;
     const tbl: any = supabase.from(def.table as never);
