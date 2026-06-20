@@ -18,6 +18,19 @@ interface AlertaRow {
   descricao: string;
 }
 
+const ENTIDADE_ROUTE: Record<string, string> = {
+  motorista: "/motoristas",
+  cavalo: "/cavalos",
+  carreta: "/carretas",
+  empresa: "/empresas",
+  conjunto: "/conjuntos",
+  tecnologia: "/tecnologias",
+  tacografo: "/tacografos",
+  seguro: "/seguros",
+  documento: "/documentos",
+  agregado: "/fila_agregados",
+};
+
 export function Topbar() {
   const [alertas, setAlertas] = useState<AlertaRow[]>([]);
 
