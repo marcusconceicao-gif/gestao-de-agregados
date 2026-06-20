@@ -6,7 +6,7 @@ import {
   PieChart, Pie, Cell, LineChart, Line, Legend,
 } from "recharts";
 import { Truck, Users, Layers, Wrench, AlertTriangle, ShieldAlert } from "lucide-react";
-import { formatDate, formatMoney } from "@/lib/export";
+import { formatDate } from "@/lib/export";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/_authenticated/")({
@@ -38,11 +38,12 @@ function Dashboard() {
   const [advRank, setAdvRank] = useState<{ nome: string; total: number }[]>([]);
   const [alertas, setAlertas] = useState<any[]>([]);
   const [sinistros12, setSinistros12] = useState<{ mes: string; total: number; custo: number }[]>([]);
-  const [topCustoVeic, setTopCustoVeic] = useState<{ placa: string; custo: number }[]>([]);
+  const [carretasNovas, setCarretasNovas] = useState<{ mes: string; total: number }[]>([]);
+  const [carretasNovasKpi, setCarretasNovasKpi] = useState({ total: 0, mes: 0, ativas: 0 });
 
   useEffect(() => {
     (async () => {
-      const [cv, mt, cj, mn, al, sn, tc, adv] = await Promise.all([
+      const [cv, mt, cj, mn, al, sn, tc, adv, cn] = await Promise.all([
         supabase.from("cavalos").select("id, placa", { count: "exact" }),
         supabase.from("motoristas").select("id", { count: "exact" }).eq("status", "ativo"),
         supabase.from("conjuntos").select("id", { count: "exact" }).eq("ativo", true),
@@ -51,6 +52,7 @@ function Dashboard() {
         supabase.from("acidentes_sinistros").select("id, data, custo"),
         supabase.from("tecnologias").select("tipo"),
         supabase.from("advertencias").select("motorista_id, motoristas(nome)").eq("ativa", true),
+        supabase.from("carretas").select("id, placa, status, created_at, condicao" as never).eq("condicao" as never, "nova" as never),
       ]);
 
       const today = new Date();
@@ -80,19 +82,17 @@ function Dashboard() {
         return { mes: m.mes, total: list.length, custo: list.reduce((a, b) => a + (Number(b.custo) || 0), 0) };
       }));
 
-      // Top custo por veículo
-      const cavalosMap = new Map<string, string>();
-      (cv.data ?? []).forEach((c: any) => cavalosMap.set(c.id, c.placa));
-      const custoMap = new Map<string, number>();
-      manuts.forEach((m) => {
-        if (!m.cavalo_id) return;
-        custoMap.set(m.cavalo_id, (custoMap.get(m.cavalo_id) ?? 0) + (Number(m.custo) || 0));
+      // Liberação de carretas novas (últimos 6 meses)
+      const carretasNovasList = ((cn as any).data ?? []) as any[];
+      setCarretasNovasKpi({
+        total: carretasNovasList.length,
+        mes: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === curYm).length,
+        ativas: carretasNovasList.filter((c) => c.status === "ativa").length,
       });
-      setTopCustoVeic(
-        Array.from(custoMap.entries())
-          .map(([id, custo]) => ({ placa: cavalosMap.get(id) ?? id.slice(0,6), custo }))
-          .sort((a,b)=>b.custo-a.custo).slice(0,8),
-      );
+      setCarretasNovas(meses.map((m) => ({
+        mes: m.mes,
+        total: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === m.key).length,
+      })));
 
       // Distribuição tecnologias
       const tecCounts: Record<string, number> = {};
@@ -174,17 +174,28 @@ function Dashboard() {
 
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="surface-card p-4">
-          <h3 className="font-display font-semibold mb-2">Top custo de manutenção (veículo)</h3>
-          <div className="h-64">
+          <div className="flex items-start justify-between mb-2 gap-3">
+            <div>
+              <h3 className="font-display font-semibold">Liberação de carreta nova</h3>
+              <p className="text-xs text-muted-foreground">Carretas zero-km liberadas para operação</p>
+            </div>
+            <div className="text-right">
+              <p className="font-display text-2xl font-semibold text-primary leading-none">{carretasNovasKpi.total}</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">total</p>
+            </div>
+          </div>
+          <div className="flex gap-2 mb-2">
+            <Badge variant="secondary" className="text-[10px]">Este mês: {carretasNovasKpi.mes}</Badge>
+            <Badge variant="outline" className="text-[10px]">Ativas: {carretasNovasKpi.ativas}</Badge>
+          </div>
+          <div className="h-44">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topCustoVeic} layout="vertical">
+              <BarChart data={carretasNovas}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#2a2a2a" />
-                <XAxis type="number" stroke="#888" fontSize={11} />
-                <YAxis dataKey="placa" type="category" stroke="#888" fontSize={11} width={70} />
-                <Tooltip
-                  formatter={(v: number) => formatMoney(v)}
-                  contentStyle={{ background: "#161616", border: "1px solid #2a2a2a", borderRadius: 8 }} />
-                <Bar dataKey="custo" fill="#C0C0C0" radius={[0,4,4,0]} />
+                <XAxis dataKey="mes" stroke="#888" fontSize={11} />
+                <YAxis stroke="#888" fontSize={11} allowDecimals={false} />
+                <Tooltip contentStyle={{ background: "#161616", border: "1px solid #2a2a2a", borderRadius: 8 }} />
+                <Bar dataKey="total" fill="#D90429" radius={[4,4,0,0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
