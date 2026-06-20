@@ -2,7 +2,7 @@ import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { Sidebar } from "@/components/Sidebar";
 import { Topbar } from "@/components/Topbar";
-import { QuickCreateFab } from "@/components/QuickCreateFab";
+
 import symbolAsset from "@/assets/monfredini-symbol.png.asset.json";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -33,7 +33,7 @@ function AuthenticatedLayout() {
           <Outlet />
         </main>
       </div>
-      <QuickCreateFab />
+      
     </div>
   );
 }
