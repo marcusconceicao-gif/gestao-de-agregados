@@ -114,6 +114,7 @@ function formatCell(field: FieldDef, value: any, refMap?: Record<string, Record<
   }
   if (field.type === "date") return formatDate(value);
   if (field.type === "money") return formatMoney(Number(value));
+  if (field.type === "password") return "••••••••";
   if (field.type === "ref" && refMap && field.refTable) {
     return refMap[field.refTable]?.[value] ?? value;
   }
