@@ -1,0 +1,1 @@
+ALTER TABLE public.carretas ADD COLUMN IF NOT EXISTS data_liberacao date;
