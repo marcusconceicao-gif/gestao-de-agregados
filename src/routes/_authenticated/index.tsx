@@ -136,7 +136,7 @@ function Dashboard() {
         <KpiCard icon={Truck} label="Cavalos" value={kpis.cavalos} />
         <KpiCard icon={Users} label="Motoristas Ativos" value={kpis.motoristas} />
         <KpiCard icon={Layers} label="Conjuntos" value={kpis.conjuntos} />
-        <KpiCard icon={Wrench} label="Manutenções/mês" value={kpis.manutMes} />
+        <KpiCard icon={Wrench} label="Manut. Carretas/mês" value={kpis.manutMes} />
         <KpiCard icon={AlertTriangle} label="Alertas Abertos" value={kpis.alertas} />
         <KpiCard icon={ShieldAlert} label="Sinistros (total)" value={kpis.sinistros} />
       </div>
