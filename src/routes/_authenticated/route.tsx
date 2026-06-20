@@ -33,7 +33,7 @@ function AuthenticatedLayout() {
           <Outlet />
         </main>
       </div>
-      <QuickCreateFab />
+      
     </div>
   );
 }
