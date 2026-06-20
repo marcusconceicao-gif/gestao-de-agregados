@@ -69,6 +69,17 @@ function FieldInput({ field, value, onChange }: { field: FieldDef; value: any; o
   if (field.type === "number" || field.type === "money") {
     return <Input type="number" step={field.type === "money" ? "0.01" : "1"} value={value ?? ""} onChange={(e) => onChange(e.target.value === "" ? null : Number(e.target.value))} />;
   }
+  const mask = detectMask(field.name);
+  if (mask) {
+    return (
+      <Input
+        value={applyMask(mask, value ?? "")}
+        onChange={(e) => onChange(applyMask(mask, e.target.value))}
+        inputMode={mask === "placa" || mask === "rg" ? "text" : "numeric"}
+        autoComplete="off"
+      />
+    );
+  }
   return <Input value={value ?? ""} onChange={(e) => onChange(e.target.value)} />;
 }
 
