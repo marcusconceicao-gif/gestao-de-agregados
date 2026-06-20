@@ -357,6 +357,7 @@ function IntegracoesPage() {
       <Tabs value={tab} onValueChange={setTab} className="w-full">
         <TabsList>
           <TabsTrigger value="novo"><ClipboardCheck className="size-4 mr-1.5" /> Nova Integração</TabsTrigger>
+          <TabsTrigger value="motoristas"><Users className="size-4 mr-1.5" /> Motoristas</TabsTrigger>
           <TabsTrigger value="historico"><History className="size-4 mr-1.5" /> Histórico</TabsTrigger>
           <TabsTrigger value="dashboard"><LayoutDashboard className="size-4 mr-1.5" /> Indicadores</TabsTrigger>
         </TabsList>
