@@ -47,7 +47,7 @@ function Dashboard() {
         supabase.from("cavalos").select("id, placa", { count: "exact" }),
         supabase.from("motoristas").select("id", { count: "exact" }).eq("status", "ativo"),
         supabase.from("conjuntos").select("id", { count: "exact" }).eq("ativo", true),
-        supabase.from("manutencoes").select("id, data, custo, cavalo_id"),
+        supabase.from("manutencoes").select("id, data, custo, carreta_id"),
         supabase.from("alertas_v" as never).select("*"),
         supabase.from("acidentes_sinistros").select("id, data, custo"),
         supabase.from("tecnologias").select("tipo"),
