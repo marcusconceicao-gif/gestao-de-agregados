@@ -84,14 +84,15 @@ function Dashboard() {
 
       // Liberação de carretas novas (últimos 6 meses)
       const carretasNovasList = (cn.data ?? []) as any[];
+      const liberDate = (c: any) => (c.data_liberacao ?? c.created_at ?? "").slice(0, 7);
       setCarretasNovasKpi({
         total: carretasNovasList.length,
-        mes: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === curYm).length,
+        mes: carretasNovasList.filter((c) => liberDate(c) === curYm).length,
         ativas: carretasNovasList.filter((c) => c.status === "ativa").length,
       });
       setCarretasNovas(meses.map((m) => ({
         mes: m.mes,
-        total: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === m.key).length,
+        total: carretasNovasList.filter((c) => liberDate(c) === m.key).length,
       })));
 
       // Distribuição tecnologias
