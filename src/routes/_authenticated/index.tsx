@@ -6,7 +6,7 @@ import {
   PieChart, Pie, Cell, LineChart, Line, Legend,
 } from "recharts";
 import { Truck, Users, Layers, Wrench, AlertTriangle, ShieldAlert } from "lucide-react";
-import { formatDate, formatMoney } from "@/lib/export";
+import { formatDate } from "@/lib/export";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/_authenticated/")({
