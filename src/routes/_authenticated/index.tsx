@@ -83,7 +83,7 @@ function Dashboard() {
       }));
 
       // Liberação de carretas novas (últimos 6 meses)
-      const carretasNovasList = ((cn as any).data ?? []) as any[];
+      const carretasNovasList = (cn.data ?? []) as any[];
       setCarretasNovasKpi({
         total: carretasNovasList.length,
         mes: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === curYm).length,
