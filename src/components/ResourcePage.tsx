@@ -23,8 +23,10 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import {
   Plus, Search, MoreHorizontal, Pencil, Copy, History, Trash2, FileSpreadsheet, FileText, Upload, Download,
-  ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown,
+  ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown, Eye, EyeOff,
 } from "lucide-react";
+
+import { useState as useReactState } from "react";
 
 type Row = Record<string, any>;
 
