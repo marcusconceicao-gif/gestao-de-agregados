@@ -174,17 +174,28 @@ function Dashboard() {
 
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="surface-card p-4">
-          <h3 className="font-display font-semibold mb-2">Top custo de manutenção (veículo)</h3>
-          <div className="h-64">
+          <div className="flex items-start justify-between mb-2 gap-3">
+            <div>
+              <h3 className="font-display font-semibold">Liberação de carreta nova</h3>
+              <p className="text-xs text-muted-foreground">Carretas zero-km liberadas para operação</p>
+            </div>
+            <div className="text-right">
+              <p className="font-display text-2xl font-semibold text-primary leading-none">{carretasNovasKpi.total}</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">total</p>
+            </div>
+          </div>
+          <div className="flex gap-2 mb-2">
+            <Badge variant="secondary" className="text-[10px]">Este mês: {carretasNovasKpi.mes}</Badge>
+            <Badge variant="outline" className="text-[10px]">Ativas: {carretasNovasKpi.ativas}</Badge>
+          </div>
+          <div className="h-44">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topCustoVeic} layout="vertical">
+              <BarChart data={carretasNovas}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#2a2a2a" />
-                <XAxis type="number" stroke="#888" fontSize={11} />
-                <YAxis dataKey="placa" type="category" stroke="#888" fontSize={11} width={70} />
-                <Tooltip
-                  formatter={(v: number) => formatMoney(v)}
-                  contentStyle={{ background: "#161616", border: "1px solid #2a2a2a", borderRadius: 8 }} />
-                <Bar dataKey="custo" fill="#C0C0C0" radius={[0,4,4,0]} />
+                <XAxis dataKey="mes" stroke="#888" fontSize={11} />
+                <YAxis stroke="#888" fontSize={11} allowDecimals={false} />
+                <Tooltip contentStyle={{ background: "#161616", border: "1px solid #2a2a2a", borderRadius: 8 }} />
+                <Bar dataKey="total" fill="#D90429" radius={[4,4,0,0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
