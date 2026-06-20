@@ -82,19 +82,17 @@ function Dashboard() {
         return { mes: m.mes, total: list.length, custo: list.reduce((a, b) => a + (Number(b.custo) || 0), 0) };
       }));
 
-      // Top custo por veículo
-      const cavalosMap = new Map<string, string>();
-      (cv.data ?? []).forEach((c: any) => cavalosMap.set(c.id, c.placa));
-      const custoMap = new Map<string, number>();
-      manuts.forEach((m) => {
-        if (!m.cavalo_id) return;
-        custoMap.set(m.cavalo_id, (custoMap.get(m.cavalo_id) ?? 0) + (Number(m.custo) || 0));
+      // Liberação de carretas novas (últimos 6 meses)
+      const carretasNovasList = ((cn as any).data ?? []) as any[];
+      setCarretasNovasKpi({
+        total: carretasNovasList.length,
+        mes: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === curYm).length,
+        ativas: carretasNovasList.filter((c) => c.status === "ativa").length,
       });
-      setTopCustoVeic(
-        Array.from(custoMap.entries())
-          .map(([id, custo]) => ({ placa: cavalosMap.get(id) ?? id.slice(0,6), custo }))
-          .sort((a,b)=>b.custo-a.custo).slice(0,8),
-      );
+      setCarretasNovas(meses.map((m) => ({
+        mes: m.mes,
+        total: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === m.key).length,
+      })));
 
       // Distribuição tecnologias
       const tecCounts: Record<string, number> = {};
