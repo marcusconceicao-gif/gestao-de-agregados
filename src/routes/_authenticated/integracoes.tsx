@@ -105,6 +105,7 @@ function IntegracoesPage() {
   const [filterName, setFilterName] = useState("");
   const [filterPlate, setFilterPlate] = useState("");
   const [filterDate, setFilterDate] = useState("");
+  const [driverTab, setDriverTab] = useState<string>("");
   const signatureRef = useRef<SignaturePadHandle>(null);
 
   const fetchList = async () => {
