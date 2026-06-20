@@ -52,7 +52,7 @@ function Dashboard() {
         supabase.from("acidentes_sinistros").select("id, data, custo"),
         supabase.from("tecnologias").select("tipo"),
         supabase.from("advertencias").select("motorista_id, motoristas(nome)").eq("ativa", true),
-        supabase.from("carretas").select("id, placa, status, created_at, condicao" as never).eq("condicao" as never, "nova" as never),
+        supabase.from("carretas").select("id, placa, status, created_at, condicao").eq("condicao", "nova"),
       ]);
 
       const today = new Date();
@@ -83,7 +83,7 @@ function Dashboard() {
       }));
 
       // Liberação de carretas novas (últimos 6 meses)
-      const carretasNovasList = ((cn as any).data ?? []) as any[];
+      const carretasNovasList = (cn.data ?? []) as any[];
       setCarretasNovasKpi({
         total: carretasNovasList.length,
         mes: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === curYm).length,
@@ -136,14 +136,14 @@ function Dashboard() {
         <KpiCard icon={Truck} label="Cavalos" value={kpis.cavalos} />
         <KpiCard icon={Users} label="Motoristas Ativos" value={kpis.motoristas} />
         <KpiCard icon={Layers} label="Conjuntos" value={kpis.conjuntos} />
-        <KpiCard icon={Wrench} label="Manutenções/mês" value={kpis.manutMes} />
+        <KpiCard icon={Wrench} label="Manut. Carretas/mês" value={kpis.manutMes} />
         <KpiCard icon={AlertTriangle} label="Alertas Abertos" value={kpis.alertas} />
         <KpiCard icon={ShieldAlert} label="Sinistros (total)" value={kpis.sinistros} />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="surface-card p-4 lg:col-span-2">
-          <h3 className="font-display font-semibold mb-2">Manutenções por mês</h3>
+          <h3 className="font-display font-semibold mb-2">Manutenções de carretas por mês</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={manutMes}>
@@ -239,15 +239,28 @@ function Dashboard() {
           <p className="text-sm text-muted-foreground">Sem alertas no momento.</p>
         ) : (
           <ul className="divide-y divide-border">
-            {alertas.map((a) => (
-              <li key={a.id} className="py-2 flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm">{a.descricao}</p>
-                  <p className="text-xs text-muted-foreground">{a.tipo.toUpperCase()} · {a.vence_em ? formatDate(a.vence_em) : ""}</p>
-                </div>
-                <Badge variant={a.severidade === "critico" ? "destructive" : "secondary"}>{a.severidade}</Badge>
-              </li>
-            ))}
+            {alertas.map((a) => {
+              const routeMap: Record<string, string> = {
+                motorista: "/motoristas", cavalo: "/cavalos", carreta: "/carretas",
+                empresa: "/empresas", conjunto: "/conjuntos", tecnologia: "/tecnologias",
+                tacografo: "/tacografos", seguro: "/seguros", documento: "/documentos",
+                agregado: "/fila_agregados",
+              };
+              const to = routeMap[a.entidade_tipo];
+              return (
+                <li
+                  key={a.id}
+                  className={`py-2 flex items-center justify-between gap-3 ${to ? "cursor-pointer hover:bg-surface-2/40 -mx-2 px-2 rounded" : ""}`}
+                  onClick={() => to && navigate({ to })}
+                >
+                  <div>
+                    <p className="text-sm">{a.descricao}</p>
+                    <p className="text-xs text-muted-foreground">{a.tipo.toUpperCase()} · {a.entidade_nome ?? ""}{a.vence_em ? ` · ${formatDate(a.vence_em)}` : ""}</p>
+                  </div>
+                  <Badge variant={a.severidade === "critico" ? "destructive" : "secondary"}>{a.severidade}</Badge>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

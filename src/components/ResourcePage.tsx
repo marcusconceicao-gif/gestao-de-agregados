@@ -6,6 +6,7 @@ import { useRefOptions } from "@/hooks/useRefOptions";
 import { type FieldDef, type ResourceDef } from "@/lib/resources";
 import { exportToExcel, exportToPDF, formatDate, formatMoney } from "@/lib/export";
 import { friendlyDbError } from "@/lib/db-errors";
+import { applyMask, detectMask, validateMasked } from "@/lib/masks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -67,6 +68,17 @@ function FieldInput({ field, value, onChange }: { field: FieldDef; value: any; o
   }
   if (field.type === "number" || field.type === "money") {
     return <Input type="number" step={field.type === "money" ? "0.01" : "1"} value={value ?? ""} onChange={(e) => onChange(e.target.value === "" ? null : Number(e.target.value))} />;
+  }
+  const mask = detectMask(field.name);
+  if (mask) {
+    return (
+      <Input
+        value={applyMask(mask, value ?? "")}
+        onChange={(e) => onChange(applyMask(mask, e.target.value))}
+        inputMode={mask === "placa" || mask === "rg" ? "text" : "numeric"}
+        autoComplete="off"
+      />
+    );
   }
   return <Input value={value ?? ""} onChange={(e) => onChange(e.target.value)} />;
 }
@@ -278,6 +290,10 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
       if (f.required && (payload[f.name] === null || payload[f.name] === "")) {
         toast.error(`Campo obrigatório: ${f.label}`);
         return;
+      }
+      if (typeof payload[f.name] === "string") {
+        const mErr = validateMasked(detectMask(f.name), payload[f.name]);
+        if (mErr) { toast.error(`${f.label}: ${mErr}`); return; }
       }
     }
     let error;
