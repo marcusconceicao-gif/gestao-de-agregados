@@ -110,6 +110,7 @@ export const RESOURCES: Record<string, ResourceDef> = {
       { name: "modelo", label: "Modelo", type: "text" },
       { name: "ano", label: "Ano", type: "number", showInTable: true },
       { name: "condicao", label: "Condição", type: "select", options: [{value:"nova",label:"Nova"},{value:"semi-nova",label:"Semi-nova"}], required: true, showInTable: true },
+      { name: "data_liberacao", label: "Data de Liberação", type: "date", showInTable: true },
       { name: "chassi", label: "Chassi", type: "text" },
       { name: "renavam", label: "Renavam", type: "text" },
       { name: "empresa_id", label: "Empresa", type: "ref", refTable: "empresas", refLabel: "razao_social", showInTable: true },

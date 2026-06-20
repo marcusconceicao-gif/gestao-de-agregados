@@ -52,7 +52,7 @@ function Dashboard() {
         supabase.from("acidentes_sinistros").select("id, data, custo"),
         supabase.from("tecnologias").select("tipo"),
         supabase.from("advertencias").select("motorista_id, motoristas(nome)").eq("ativa", true),
-        supabase.from("carretas").select("id, placa, status, created_at, condicao").eq("condicao", "nova"),
+        supabase.from("carretas").select("id, placa, status, created_at, condicao, data_liberacao" as never).eq("condicao" as never, "nova" as never),
       ]);
 
       const today = new Date();
@@ -84,14 +84,15 @@ function Dashboard() {
 
       // Liberação de carretas novas (últimos 6 meses)
       const carretasNovasList = (cn.data ?? []) as any[];
+      const liberDate = (c: any) => (c.data_liberacao ?? c.created_at ?? "").slice(0, 7);
       setCarretasNovasKpi({
         total: carretasNovasList.length,
-        mes: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === curYm).length,
+        mes: carretasNovasList.filter((c) => liberDate(c) === curYm).length,
         ativas: carretasNovasList.filter((c) => c.status === "ativa").length,
       });
       setCarretasNovas(meses.map((m) => ({
         mes: m.mes,
-        total: carretasNovasList.filter((c) => (c.created_at ?? "").slice(0,7) === m.key).length,
+        total: carretasNovasList.filter((c) => liberDate(c) === m.key).length,
       })));
 
       // Distribuição tecnologias

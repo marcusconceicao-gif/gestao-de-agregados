@@ -23,6 +23,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import {
   Plus, Search, MoreHorizontal, Pencil, Copy, History, Trash2, FileSpreadsheet, FileText, Upload, Download,
+  ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown,
 } from "lucide-react";
 
 type Row = Record<string, any>;
@@ -116,6 +117,10 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
   const [refMap, setRefMap] = useState<Record<string, Record<string, string>>>({});
   const [importing, setImporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [sortKey, setSortKey] = useState<string | null>(null);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
   const downloadTemplate = () => {
     const headers = def.fields.map((f) => f.label);
@@ -252,12 +257,36 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
   );
 
   const filtered = useMemo(() => {
-    if (!search.trim()) return rows;
-    const s = search.toLowerCase();
-    return rows.filter((r) =>
-      def.fields.some((f) => String(r[f.name] ?? "").toLowerCase().includes(s)),
-    );
-  }, [rows, search, def]);
+    const base = !search.trim()
+      ? rows
+      : rows.filter((r) => {
+          const s = search.toLowerCase();
+          return def.fields.some((f) => String(r[f.name] ?? "").toLowerCase().includes(s));
+        });
+    if (!sortKey) return base;
+    const field = def.fields.find((f) => f.name === sortKey);
+    const sorted = [...base].sort((a, b) => {
+      const av = a[sortKey];
+      const bv = b[sortKey];
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      if (field?.type === "number" || field?.type === "money") return Number(av) - Number(bv);
+      return String(av).localeCompare(String(bv), "pt-BR", { numeric: true });
+    });
+    return sortDir === "asc" ? sorted : sorted.reverse();
+  }, [rows, search, def, sortKey, sortDir]);
+
+  useEffect(() => { setPage(1); }, [search, sortKey, sortDir, def.table]);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const pageRows = useMemo(
+    () => filtered.slice((page - 1) * pageSize, page * pageSize),
+    [filtered, page, pageSize],
+  );
+  const toggleSort = (name: string) => {
+    if (sortKey === name) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    else { setSortKey(name); setSortDir("asc"); }
+  };
 
   const openNew = () => {
     setEditing({});
@@ -381,9 +410,22 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
           <table className="w-full text-sm">
             <thead className="bg-surface-2 text-secondary">
               <tr>
-                {tableFields.map((f) => (
-                  <th key={f.name} className="text-left px-4 py-3 font-medium whitespace-nowrap">{f.label}</th>
-                ))}
+                {tableFields.map((f) => {
+                  const active = sortKey === f.name;
+                  const Icon = !active ? ArrowUpDown : sortDir === "asc" ? ArrowUp : ArrowDown;
+                  return (
+                    <th key={f.name} className="text-left px-4 py-3 font-medium whitespace-nowrap">
+                      <button
+                        type="button"
+                        onClick={() => toggleSort(f.name)}
+                        className={`inline-flex items-center gap-1.5 hover:text-primary transition ${active ? "text-primary" : ""}`}
+                      >
+                        {f.label}
+                        <Icon className="size-3.5 opacity-70" />
+                      </button>
+                    </th>
+                  );
+                })}
                 <th className="px-4 py-3 w-12"></th>
               </tr>
             </thead>
@@ -394,7 +436,7 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
                 <tr><td colSpan={tableFields.length+1} className="px-4 py-10 text-center text-muted-foreground">
                   Nenhum registro encontrado.
                 </td></tr>
-              ) : filtered.map((row) => (
+              ) : pageRows.map((row) => (
                 <tr key={row.id} className="border-t border-border hover:bg-surface-2/50 transition">
                   {tableFields.map((f) => (
                     <td key={f.name} className="px-4 py-2.5 whitespace-nowrap">{formatCell(f, row[f.name], refMap)}</td>
@@ -420,6 +462,33 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
             </tbody>
           </table>
         </div>
+        {!loading && filtered.length > 0 && (
+          <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-t border-border text-xs text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <span>Linhas por página:</span>
+              <Select value={String(pageSize)} onValueChange={(v) => { setPageSize(Number(v)); setPage(1); }}>
+                <SelectTrigger className="h-8 w-20"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {[10, 25, 50, 100].map((n) => <SelectItem key={n} value={String(n)}>{n}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>
+                {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, filtered.length)} de {filtered.length}
+              </span>
+              <div className="flex items-center gap-1">
+                <Button size="icon" variant="ghost" className="size-8" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
+                  <ChevronLeft className="size-4" />
+                </Button>
+                <span className="px-2">{page} / {totalPages}</span>
+                <Button size="icon" variant="ghost" className="size-8" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
+                  <ChevronRight className="size-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Create / Edit modal */}
