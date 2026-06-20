@@ -117,6 +117,10 @@ export function ResourcePage({ def, openCreate, onCreateClosed }: ResourcePagePr
   const [refMap, setRefMap] = useState<Record<string, Record<string, string>>>({});
   const [importing, setImporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [sortKey, setSortKey] = useState<string | null>(null);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
   const downloadTemplate = () => {
     const headers = def.fields.map((f) => f.label);
