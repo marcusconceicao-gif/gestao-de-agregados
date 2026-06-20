@@ -185,9 +185,8 @@ function IntegracoesPage() {
     }
     if (!form.id) payload.created_by = user?.id ?? null;
 
-    const q = form.id
-      ? supabase.from("integracoes" as never).update(payload).eq("id", form.id)
-      : supabase.from("integracoes" as never).insert(payload);
+    const table = supabase.from("integracoes" as never) as any;
+    const q = form.id ? table.update(payload).eq("id", form.id) : table.insert(payload);
     const { error } = await q;
     setSaving(false);
     if (error) {

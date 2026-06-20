@@ -19,6 +19,7 @@ import { Route as AuthenticatedSegurosRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedRelatoriosRouteImport } from './routes/_authenticated/relatorios'
 import { Route as AuthenticatedMotoristasRouteImport } from './routes/_authenticated/motoristas'
 import { Route as AuthenticatedManutencoesRouteImport } from './routes/_authenticated/manutencoes'
+import { Route as AuthenticatedIntegracoesRouteImport } from './routes/_authenticated/integracoes'
 import { Route as AuthenticatedFila_agregadosRouteImport } from './routes/_authenticated/fila_agregados'
 import { Route as AuthenticatedEmpresasRouteImport } from './routes/_authenticated/empresas'
 import { Route as AuthenticatedDocumentosRouteImport } from './routes/_authenticated/documentos'
@@ -79,6 +80,12 @@ const AuthenticatedManutencoesRoute =
   AuthenticatedManutencoesRouteImport.update({
     id: '/manutencoes',
     path: '/manutencoes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedIntegracoesRoute =
+  AuthenticatedIntegracoesRouteImport.update({
+    id: '/integracoes',
+    path: '/integracoes',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedFila_agregadosRoute =
@@ -148,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/documentos': typeof AuthenticatedDocumentosRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/fila_agregados': typeof AuthenticatedFila_agregadosRoute
+  '/integracoes': typeof AuthenticatedIntegracoesRoute
   '/manutencoes': typeof AuthenticatedManutencoesRoute
   '/motoristas': typeof AuthenticatedMotoristasRoute
   '/relatorios': typeof AuthenticatedRelatoriosRoute
@@ -168,6 +176,7 @@ export interface FileRoutesByTo {
   '/documentos': typeof AuthenticatedDocumentosRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/fila_agregados': typeof AuthenticatedFila_agregadosRoute
+  '/integracoes': typeof AuthenticatedIntegracoesRoute
   '/manutencoes': typeof AuthenticatedManutencoesRoute
   '/motoristas': typeof AuthenticatedMotoristasRoute
   '/relatorios': typeof AuthenticatedRelatoriosRoute
@@ -191,6 +200,7 @@ export interface FileRoutesById {
   '/_authenticated/documentos': typeof AuthenticatedDocumentosRoute
   '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
   '/_authenticated/fila_agregados': typeof AuthenticatedFila_agregadosRoute
+  '/_authenticated/integracoes': typeof AuthenticatedIntegracoesRoute
   '/_authenticated/manutencoes': typeof AuthenticatedManutencoesRoute
   '/_authenticated/motoristas': typeof AuthenticatedMotoristasRoute
   '/_authenticated/relatorios': typeof AuthenticatedRelatoriosRoute
@@ -215,6 +225,7 @@ export interface FileRouteTypes {
     | '/documentos'
     | '/empresas'
     | '/fila_agregados'
+    | '/integracoes'
     | '/manutencoes'
     | '/motoristas'
     | '/relatorios'
@@ -235,6 +246,7 @@ export interface FileRouteTypes {
     | '/documentos'
     | '/empresas'
     | '/fila_agregados'
+    | '/integracoes'
     | '/manutencoes'
     | '/motoristas'
     | '/relatorios'
@@ -257,6 +269,7 @@ export interface FileRouteTypes {
     | '/_authenticated/documentos'
     | '/_authenticated/empresas'
     | '/_authenticated/fila_agregados'
+    | '/_authenticated/integracoes'
     | '/_authenticated/manutencoes'
     | '/_authenticated/motoristas'
     | '/_authenticated/relatorios'
@@ -344,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedManutencoesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/integracoes': {
+      id: '/_authenticated/integracoes'
+      path: '/integracoes'
+      fullPath: '/integracoes'
+      preLoaderRoute: typeof AuthenticatedIntegracoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/fila_agregados': {
       id: '/_authenticated/fila_agregados'
       path: '/fila_agregados'
@@ -428,6 +448,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDocumentosRoute: typeof AuthenticatedDocumentosRoute
   AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
   AuthenticatedFila_agregadosRoute: typeof AuthenticatedFila_agregadosRoute
+  AuthenticatedIntegracoesRoute: typeof AuthenticatedIntegracoesRoute
   AuthenticatedManutencoesRoute: typeof AuthenticatedManutencoesRoute
   AuthenticatedMotoristasRoute: typeof AuthenticatedMotoristasRoute
   AuthenticatedRelatoriosRoute: typeof AuthenticatedRelatoriosRoute
@@ -449,6 +470,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDocumentosRoute: AuthenticatedDocumentosRoute,
   AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
   AuthenticatedFila_agregadosRoute: AuthenticatedFila_agregadosRoute,
+  AuthenticatedIntegracoesRoute: AuthenticatedIntegracoesRoute,
   AuthenticatedManutencoesRoute: AuthenticatedManutencoesRoute,
   AuthenticatedMotoristasRoute: AuthenticatedMotoristasRoute,
   AuthenticatedRelatoriosRoute: AuthenticatedRelatoriosRoute,
