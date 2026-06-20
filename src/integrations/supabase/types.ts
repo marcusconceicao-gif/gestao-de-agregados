@@ -861,6 +861,7 @@ export type Database = {
       }
       tecnologias: {
         Row: {
+          camera: boolean | null
           carreta_id: string | null
           cavalo_id: string | null
           created_at: string
@@ -869,12 +870,17 @@ export type Database = {
           numero_equipamento: string | null
           observacoes: string | null
           proxima_manutencao: string | null
+          segunda_tecnologia: string | null
+          senha: string | null
           status: string
           tipo: Database["public"]["Enums"]["tecnologia_tipo"]
+          trava_5a_roda: boolean | null
           ultima_manutencao: string | null
           updated_at: string
+          usuario: string | null
         }
         Insert: {
+          camera?: boolean | null
           carreta_id?: string | null
           cavalo_id?: string | null
           created_at?: string
@@ -883,12 +889,17 @@ export type Database = {
           numero_equipamento?: string | null
           observacoes?: string | null
           proxima_manutencao?: string | null
+          segunda_tecnologia?: string | null
+          senha?: string | null
           status?: string
           tipo: Database["public"]["Enums"]["tecnologia_tipo"]
+          trava_5a_roda?: boolean | null
           ultima_manutencao?: string | null
           updated_at?: string
+          usuario?: string | null
         }
         Update: {
+          camera?: boolean | null
           carreta_id?: string | null
           cavalo_id?: string | null
           created_at?: string
@@ -897,10 +908,14 @@ export type Database = {
           numero_equipamento?: string | null
           observacoes?: string | null
           proxima_manutencao?: string | null
+          segunda_tecnologia?: string | null
+          senha?: string | null
           status?: string
           tipo?: Database["public"]["Enums"]["tecnologia_tipo"]
+          trava_5a_roda?: boolean | null
           ultima_manutencao?: string | null
           updated_at?: string
+          usuario?: string | null
         }
         Relationships: [
           {

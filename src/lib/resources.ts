@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export type FieldType =
   | "text"
+  | "password"
   | "textarea"
   | "number"
   | "date"
@@ -147,6 +148,12 @@ export const RESOURCES: Record<string, ResourceDef> = {
         ], showInTable: true },
       { name: "numero_equipamento", label: "Nº do Equipamento", type: "text", showInTable: true },
       { name: "cavalo_id", label: "Cavalo", type: "ref", refTable: "cavalos", refLabel: "placa", showInTable: true },
+      { name: "usuario", label: "Usuário", type: "text" },
+      { name: "senha", label: "Senha", type: "password" },
+      { name: "segunda_tecnologia", label: "Segunda Tecnologia", type: "select",
+        options: [{ value: "3S", label: "3S" }, { value: "T4S", label: "T4S" }], showInTable: true },
+      { name: "trava_5a_roda", label: "Trava 5ª Roda", type: "boolean", showInTable: true },
+      { name: "camera", label: "Câmera", type: "boolean", showInTable: true },
       { name: "data_instalacao", label: "Instalação", type: "date", showInTable: true },
       { name: "status", label: "Status", type: "select",
         options: ["ativo","inativo","retirado"].map(v=>({value:v,label:v})), showInTable: true },
