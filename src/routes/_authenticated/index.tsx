@@ -38,7 +38,8 @@ function Dashboard() {
   const [advRank, setAdvRank] = useState<{ nome: string; total: number }[]>([]);
   const [alertas, setAlertas] = useState<any[]>([]);
   const [sinistros12, setSinistros12] = useState<{ mes: string; total: number; custo: number }[]>([]);
-  const [topCustoVeic, setTopCustoVeic] = useState<{ placa: string; custo: number }[]>([]);
+  const [carretasNovas, setCarretasNovas] = useState<{ mes: string; total: number }[]>([]);
+  const [carretasNovasKpi, setCarretasNovasKpi] = useState({ total: 0, mes: 0, ativas: 0 });
 
   useEffect(() => {
     (async () => {
