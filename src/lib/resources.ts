@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export type FieldType =
   | "text"
+  | "password"
   | "textarea"
   | "number"
   | "date"
