@@ -1,0 +1,1 @@
+ALTER TABLE public.tecnologias ADD COLUMN IF NOT EXISTS usuario2 text, ADD COLUMN IF NOT EXISTS senha2 text;

@@ -872,12 +872,14 @@ export type Database = {
           proxima_manutencao: string | null
           segunda_tecnologia: string | null
           senha: string | null
+          senha2: string | null
           status: string
           tipo: Database["public"]["Enums"]["tecnologia_tipo"]
           trava_5a_roda: boolean | null
           ultima_manutencao: string | null
           updated_at: string
           usuario: string | null
+          usuario2: string | null
         }
         Insert: {
           camera?: boolean | null
@@ -891,12 +893,14 @@ export type Database = {
           proxima_manutencao?: string | null
           segunda_tecnologia?: string | null
           senha?: string | null
+          senha2?: string | null
           status?: string
           tipo: Database["public"]["Enums"]["tecnologia_tipo"]
           trava_5a_roda?: boolean | null
           ultima_manutencao?: string | null
           updated_at?: string
           usuario?: string | null
+          usuario2?: string | null
         }
         Update: {
           camera?: boolean | null
@@ -910,12 +914,14 @@ export type Database = {
           proxima_manutencao?: string | null
           segunda_tecnologia?: string | null
           senha?: string | null
+          senha2?: string | null
           status?: string
           tipo?: Database["public"]["Enums"]["tecnologia_tipo"]
           trava_5a_roda?: boolean | null
           ultima_manutencao?: string | null
           updated_at?: string
           usuario?: string | null
+          usuario2?: string | null
         }
         Relationships: [
           {
