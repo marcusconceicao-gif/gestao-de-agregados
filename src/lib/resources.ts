@@ -105,7 +105,8 @@ export const RESOURCES: Record<string, ResourceDef> = {
     defaultOrder: "placa",
     fields: [
       { name: "placa", label: "Placa", type: "text", required: true, showInTable: true },
-      { name: "tipo", label: "Tipo", type: "select", options: ["Bau","Sider","Graneleira","Tanque","Frigorifica","Prancha","Caçamba"].map(v=>({value:v,label:v})), showInTable: true },
+      { name: "tipo", label: "Tipo", type: "select", options: [{ value: "Bau", label: "Baú" }] },
+      { name: "eixos", label: "Eixos", type: "select", options: [{ value: "2", label: "2 eixos" }, { value: "3", label: "3 eixos" }], showInTable: true },
       { name: "marca", label: "Marca", type: "text", showInTable: true },
       { name: "modelo", label: "Modelo", type: "text" },
       { name: "ano", label: "Ano", type: "number", showInTable: true },

@@ -171,6 +171,7 @@ export type Database = {
           condicao: string
           created_at: string
           data_liberacao: string | null
+          eixos: string | null
           empresa_id: string | null
           id: string
           marca: string | null
@@ -188,6 +189,7 @@ export type Database = {
           condicao?: string
           created_at?: string
           data_liberacao?: string | null
+          eixos?: string | null
           empresa_id?: string | null
           id?: string
           marca?: string | null
@@ -205,6 +207,7 @@ export type Database = {
           condicao?: string
           created_at?: string
           data_liberacao?: string | null
+          eixos?: string | null
           empresa_id?: string | null
           id?: string
           marca?: string | null

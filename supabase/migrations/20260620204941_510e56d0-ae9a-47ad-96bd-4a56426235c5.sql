@@ -1,0 +1,1 @@
+ALTER TABLE public.carretas ALTER COLUMN eixos TYPE text USING eixos::text;
