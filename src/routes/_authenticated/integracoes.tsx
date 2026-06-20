@@ -462,6 +462,104 @@ function IntegracoesPage() {
           </div>
         </TabsContent>
 
+        <TabsContent value="motoristas" className="space-y-4 mt-4">
+          {driverGroups.length === 0 ? (
+            <section className="surface-card p-8 text-center text-muted-foreground">
+              Nenhum motorista cadastrado ainda. Crie uma nova integração para começar.
+            </section>
+          ) : (
+            <Tabs value={driverTab} onValueChange={setDriverTab} className="w-full">
+              <div className="surface-card p-2 overflow-x-auto">
+                <TabsList className="flex flex-wrap h-auto gap-1 bg-transparent p-0">
+                  {driverGroups.map((g) => (
+                    <TabsTrigger key={g.nome} value={g.nome} className="data-[state=active]:brand-gradient data-[state=active]:text-white">
+                      <UserIcon className="size-3.5 mr-1.5" />
+                      {g.nome}
+                      <Badge variant="secondary" className="ml-2 h-5 px-1.5 text-[10px]">{g.items.length}</Badge>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
+
+              {driverGroups.map((g) => {
+                const latest = g.items[0];
+                const concl = g.items.filter((r) => r.status === "concluido").length;
+                const pend = g.items.length - concl;
+                return (
+                  <TabsContent key={g.nome} value={g.nome} className="space-y-4 mt-4">
+                    <section className="surface-card p-5">
+                      <div className="flex flex-wrap items-start justify-between gap-4">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl brand-gradient text-white">
+                            <UserIcon className="size-6" />
+                          </div>
+                          <div className="min-w-0">
+                            <h3 className="font-display text-xl font-semibold truncate">{g.nome}</h3>
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground mt-1">
+                              {latest?.contato && (
+                                <span className="inline-flex items-center gap-1"><Phone className="size-3" /> {latest.contato}</span>
+                              )}
+                              {latest?.placa_cavalo && (
+                                <span className="inline-flex items-center gap-1"><Truck className="size-3" /> {latest.placa_cavalo}{latest.placa_carreta ? ` / ${latest.placa_carreta}` : ""}</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 text-xs">
+                          <Badge variant="secondary">{g.items.length} integração(ões)</Badge>
+                          <Badge className="bg-emerald-600 hover:bg-emerald-600">{concl} concluída(s)</Badge>
+                          {pend > 0 && <Badge variant="outline">{pend} pendente(s)</Badge>}
+                        </div>
+                      </div>
+                    </section>
+
+                    <section className="grid gap-3 md:grid-cols-2">
+                      {g.items.map((r) => (
+                        <div key={r.id} className="surface-card p-4 space-y-3">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="text-sm font-medium inline-flex items-center gap-1.5">
+                                <CalendarIcon className="size-3.5 text-muted-foreground" />
+                                {new Date(r.data + "T00:00:00").toLocaleDateString("pt-BR")}
+                              </p>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                Responsável: {r.responsavel ?? "—"}
+                              </p>
+                            </div>
+                            <Badge variant={r.status === "concluido" ? "default" : "secondary"}>
+                              {r.status === "concluido" ? "Concluído" : "Pendente"}
+                            </Badge>
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            <span className="inline-flex items-center gap-1"><Truck className="size-3" /> {r.placa_cavalo ?? "—"} / {r.placa_carreta ?? "—"}</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {CHECKLIST_ITEMS.map((it) => (
+                              <Badge
+                                key={it.key}
+                                variant={r[it.key] ? "default" : "outline"}
+                                className="text-[10px] font-normal"
+                              >
+                                {r[it.key] ? "✓" : "○"} {it.label}
+                              </Badge>
+                            ))}
+                          </div>
+                          <div className="flex justify-end gap-1 pt-1 border-t border-border">
+                            <Button size="sm" variant="ghost" onClick={() => editar(r)}>Editar</Button>
+                            <Button size="sm" variant="ghost" onClick={() => gerarPDF(rowToForm(r))}>
+                              <FileDown className="size-4 mr-1" /> PDF
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </section>
+                  </TabsContent>
+                );
+              })}
+            </Tabs>
+          )}
+        </TabsContent>
+
         <TabsContent value="historico" className="space-y-4 mt-4">
           <section className="surface-card p-4">
             <h3 className="font-display font-semibold mb-3">Filtros</h3>
