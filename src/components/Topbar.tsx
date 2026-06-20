@@ -74,19 +74,31 @@ export function Topbar() {
               {alertas.length === 0 && (
                 <li className="p-6 text-sm text-muted-foreground text-center">Nenhum alerta no momento.</li>
               )}
-              {alertas.slice(0, 10).map((a) => (
-                <li key={a.id} className="p-3 hover:bg-surface-2/50">
-                  <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm">{a.descricao}</p>
-                    <Badge variant={a.severidade === "critico" ? "destructive" : "secondary"} className="shrink-0 text-[10px]">
-                      {a.severidade}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {a.tipo.toUpperCase()} · {a.vence_em ? formatDate(a.vence_em) : ""}
-                  </p>
-                </li>
-              ))}
+              {alertas.slice(0, 10).map((a) => {
+                const to = ENTIDADE_ROUTE[a.entidade_tipo];
+                const inner = (
+                  <>
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-sm">{a.descricao}</p>
+                      <Badge variant={a.severidade === "critico" ? "destructive" : "secondary"} className="shrink-0 text-[10px]">
+                        {a.severidade}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {a.tipo.toUpperCase()} · {a.entidade_nome ?? ""}{a.vence_em ? ` · ${formatDate(a.vence_em)}` : ""}
+                    </p>
+                  </>
+                );
+                return (
+                  <li key={a.id} className="hover:bg-surface-2/50">
+                    {to ? (
+                      <Link to={to} className="block p-3">{inner}</Link>
+                    ) : (
+                      <div className="p-3">{inner}</div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </PopoverContent>
         </Popover>
