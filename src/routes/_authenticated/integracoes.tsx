@@ -375,7 +375,7 @@ function IntegracoesPage() {
                   <Input value={form.contato} onChange={(e) => setForm((s) => ({ ...s, contato: e.target.value }))} />
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Data</Label>
+                  <Label>Data da Integração</Label>
                   <Input type="date" value={form.data} onChange={(e) => setForm((s) => ({ ...s, data: e.target.value }))} />
                 </div>
               </div>
